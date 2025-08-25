@@ -164,7 +164,7 @@ function Auth() {
                     error={Boolean(errors.password)}
                     sx={{ mb: 2 }}
                 />
-                <Stack spacing={2} direction="row">
+                <Stack direction="row" spacing={2} justifyContent="space-between">
                     <Button
                         variant="outlined"
                         startIcon={<FaGoogle />}
@@ -176,7 +176,12 @@ function Auth() {
                     <Button variant="outlined" type="submit" disabled={isSubmitting}>
                         Giriş Yap
                     </Button>
-                    <Button variant="outlined" onClick={handleRegister} disabled={isSubmitting}>
+                    <Button
+                        variant="outlined"
+                        onClick={handleRegister}
+                        disabled={isSubmitting}
+                        style={{ display: "none" }}
+                    >
                         Kaydol
                     </Button>
                 </Stack>
