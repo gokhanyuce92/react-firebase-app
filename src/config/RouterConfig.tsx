@@ -3,7 +3,6 @@ import Home from "../pages/Home";
 import Auth from "../pages/Auth";
 import ProtectedRoute from "../components/ProtectedRoute";
 import MainLayout from "../components/MainLayout";
-import About from "../pages/About";
 
 function RouterConfig() {
     return (
@@ -14,14 +13,6 @@ function RouterConfig() {
                     element={
                         <ProtectedRoute>
                             <Home />
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path="/about"
-                    element={
-                        <ProtectedRoute>
-                            <About />
                         </ProtectedRoute>
                     }
                 />

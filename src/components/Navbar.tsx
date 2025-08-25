@@ -72,8 +72,7 @@ export default function Navbar() {
                         onClose={handleClose}
                         TransitionComponent={Fade}
                     >
-                        <MenuItem onClick={() => navigateTo("/")}>Anasayfa</MenuItem>
-                        <MenuItem onClick={() => navigateTo("/about")}>Hakkımızda</MenuItem>
+                        <MenuItem onClick={() => navigateTo("/")}>Yapılacak İşler</MenuItem>
                     </Menu>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         {user?.email}
