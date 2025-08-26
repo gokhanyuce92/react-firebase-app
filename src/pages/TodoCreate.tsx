@@ -53,7 +53,7 @@ function TodoCreate() {
                 <TextField
                     fullWidth
                     id="standard-basic"
-                    label="Lütfen bir todo giriniz"
+                    label="Yapılacaklar listesine bir görev giriniz"
                     variant="standard"
                     ref={inputRef}
                     value={newTodo}
