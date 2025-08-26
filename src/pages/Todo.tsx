@@ -18,13 +18,14 @@ interface TodoProps {
 }
 
 function Todo({ todoProps }: TodoProps) {
+    const { id, text, completed } = todoProps;
     const dispatch = useDispatch<AppDispatch>();
     const [isEditing, setIsEditing] = useState(false);
-    const [editValue, setEditValue] = useState(todoProps.text);
-    const [isCompleted, setIsCompleted] = useState(todoProps.completed);
+    const [editValue, setEditValue] = useState(text);
+    const [isCompleted, setIsCompleted] = useState(completed);
 
     const handleRemove = () => {
-        if (todoProps.id) dispatch(deleteTodo(todoProps.id));
+        if (id) dispatch(deleteTodo(id));
     };
 
     const handleEdit = () => setIsEditing(true);
@@ -98,7 +99,7 @@ function Todo({ todoProps }: TodoProps) {
                     sx={{ width: "90%" }}
                 />
             ) : (
-                <ListItemText primary={todoProps.text} />
+                <ListItemText primary={text} />
             )}
         </ListItem>
     );
