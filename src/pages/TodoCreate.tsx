@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../redux/todoSlice";
 import type { TodoType } from "../types/Types";
 import type { AppDispatch } from "../redux/store";
@@ -9,28 +9,32 @@ import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material/Box";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import type { RootState } from "../redux/store";
 
 function TodoCreate() {
     const dispatch = useDispatch<AppDispatch>();
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [newTodo, setNewTodo] = useState<string>("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const userId = useSelector((state: RootState) => state.session.user?.uid);
 
     const handleCreateTodo = useCallback(() => {
         if (newTodo.trim() === "") {
             setOpenSnackbar(true);
             return;
         }
+        if (!userId) return; // userId yoksa işlem yapma
 
         const payload: Omit<TodoType, "id"> = {
             text: newTodo,
             completed: false,
+            userId,
         };
 
         dispatch(addTodo(payload));
         setNewTodo("");
         inputRef.current?.focus();
-    }, [dispatch, newTodo]);
+    }, [dispatch, newTodo, userId]);
 
     const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {

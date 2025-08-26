@@ -9,9 +9,12 @@ const initialState: TodoInitialState = {
 };
 
 // Tüm todo'ları getir
-export const getTodos = createAsyncThunk<TodoType[]>("getTodos", async () => {
+export const getTodos = createAsyncThunk<TodoType[], string>("getTodos", async (userId) => {
     const querySnapshot = await getDocs(collection(db, "todos"));
-    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as TodoType[];
+    // Sadece ilgili kullanıcıya ait todo'lar
+    return querySnapshot.docs
+        .map((doc) => ({ ...(doc.data() as TodoType), id: doc.id }))
+        .filter((todo) => todo.userId === userId) as TodoType[];
 });
 
 // Yeni todo ekle
@@ -19,6 +22,7 @@ export const addTodo = createAsyncThunk<TodoType, Omit<TodoType, "id">>("addTodo
     const docRef = await addDoc(collection(db, "todos"), {
         text: todo.text,
         completed: todo.completed,
+        userId: todo.userId,
     });
     return { ...todo, id: docRef.id };
 });
@@ -43,6 +47,9 @@ const todoSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(getTodos.pending, (state) => {
+                state.todos = [];
+            })
             .addCase(getTodos.fulfilled, (state, action: PayloadAction<TodoType[]>) => {
                 state.todos = action.payload;
             })

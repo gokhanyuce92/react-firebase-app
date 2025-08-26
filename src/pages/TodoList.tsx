@@ -7,11 +7,14 @@ import List from "@mui/material/List";
 
 function TodoList() {
     const dispatch = useDispatch<AppDispatch>();
+    const userId = useSelector((state: RootState) => state.session.user?.uid);
     const { todos } = useSelector((state: RootState) => state.todo);
 
     useEffect(() => {
-        dispatch(getTodos());
-    }, [dispatch]);
+        if (userId) {
+            dispatch(getTodos(userId));
+        }
+    }, [dispatch, userId]);
 
     return (
         <List>

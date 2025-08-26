@@ -90,7 +90,7 @@ function Auth() {
         setIsSubmitting(true);
         try {
             const response = await signInWithEmailAndPassword(auth, values.email, values.password);
-            if (response.user) {
+            if (response?.user) {
                 navigate("/");
             }
         } catch (error) {
