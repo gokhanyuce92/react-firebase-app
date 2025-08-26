@@ -69,7 +69,6 @@ function Auth() {
             const credential = GoogleAuthProvider.credentialFromResult(response);
             const token = credential?.accessToken;
             if (token) {
-                toast.success("Google ile giriş başarılı!");
                 navigate("/");
             } else {
                 toast.error("Google ile girişte bir sorun oluştu.");
