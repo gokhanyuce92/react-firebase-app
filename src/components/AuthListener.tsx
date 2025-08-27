@@ -5,9 +5,9 @@ import { auth } from "../Firebase";
 import { logIn, logOut } from "../redux/sessionSlice";
 import type { ReactNode } from "react";
 
-interface AuthListenerProps {
+type AuthListenerProps = {
     children: ReactNode;
-}
+};
 
 const AuthListener = ({ children }: AuthListenerProps) => {
     const dispatch = useDispatch();

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { AppDispatch, RootState } from "../redux/store";
 import { getTodos } from "../redux/todoSlice";
 import List from "@mui/material/List";
+import type { TodoType } from "../types/generaltypes";
 
 function TodoList() {
     const dispatch = useDispatch<AppDispatch>();
@@ -18,7 +19,7 @@ function TodoList() {
 
     return (
         <List>
-            {todos.map((todo) => (
+            {todos.map((todo: TodoType) => (
                 <Todo key={todo.id} todoProps={todo} />
             ))}
         </List>

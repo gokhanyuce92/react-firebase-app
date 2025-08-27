@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaCheck, FaRegEdit } from "react-icons/fa";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
-import type { TodoType } from "../types/Types";
 import { useDispatch } from "react-redux";
 import { deleteTodo, updateTodo } from "../redux/todoSlice";
 import type { AppDispatch } from "../redux/store";
@@ -12,10 +11,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-
-interface TodoProps {
-    todoProps: TodoType;
-}
+import type { TodoProps } from "../types/propstypes";
 
 function Todo({ todoProps }: TodoProps) {
     const { id, text, completed } = todoProps;

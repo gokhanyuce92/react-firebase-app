@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { TodoInitialState, TodoType } from "../types/Types";
 import { db } from "../Firebase";
 import { collection, doc, addDoc, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
+import type { TodoInitialState, TodoType } from "../types/generaltypes";
 
 const initialState: TodoInitialState = {
     todos: [],

@@ -1,10 +1,10 @@
-export interface TodoInitialState {
+export type TodoInitialState = {
     todos: TodoType[];
-}
+};
 
-export interface TodoType {
+export type TodoType = {
     id: string;
     text: string;
     completed: boolean;
     userId: string;
-}
+};

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../redux/todoSlice";
-import type { TodoType } from "../types/Types";
 import type { AppDispatch } from "../redux/store";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -10,6 +9,7 @@ import Box from "@mui/material/Box";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import type { RootState } from "../redux/store";
+import type { TodoType } from "../types/generaltypes";
 
 function TodoCreate() {
     const dispatch = useDispatch<AppDispatch>();
