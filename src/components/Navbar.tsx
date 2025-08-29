@@ -10,7 +10,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
-import { useIsLoggedIn } from "../redux/useIsLoggedIn";
+import { useIsLoggedIn } from "../hooks/useIsLoggedIn";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
