@@ -18,7 +18,7 @@ function Todo({ todoProps }: TodoProps) {
     const dispatch = useDispatch<AppDispatch>();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(text);
-    const [isCompleted, setIsCompleted] = useState(completed);
+    const isCompleted = completed;
 
     const handleRemove = () => {
         if (id) dispatch(deleteTodo(id));
@@ -38,7 +38,6 @@ function Todo({ todoProps }: TodoProps) {
     const handleComplete = () => {
         if (isCompleted) return;
 
-        setIsCompleted(true);
         dispatch(updateTodo({ ...todoProps, completed: true }));
     };
 

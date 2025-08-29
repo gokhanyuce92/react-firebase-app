@@ -44,7 +44,11 @@ export const updateTodo = createAsyncThunk<TodoType, TodoType>("updateTodo", asy
 const todoSlice = createSlice({
     name: "todo",
     initialState,
-    reducers: {},
+    reducers: {
+        setTodos: (state, action: PayloadAction<TodoType[]>) => {
+            state.todos = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getTodos.pending, (state) => {
@@ -52,9 +56,6 @@ const todoSlice = createSlice({
             })
             .addCase(getTodos.fulfilled, (state, action: PayloadAction<TodoType[]>) => {
                 state.todos = action.payload;
-            })
-            .addCase(addTodo.fulfilled, (state, action: PayloadAction<TodoType>) => {
-                state.todos.push(action.payload);
             })
             .addCase(deleteTodo.fulfilled, (state, action: PayloadAction<string>) => {
                 state.todos = state.todos.filter((todo) => todo.id !== action.payload);
@@ -66,5 +67,7 @@ const todoSlice = createSlice({
             });
     },
 });
+
+export const { setTodos } = todoSlice.actions;
 
 export default todoSlice.reducer;
