@@ -64,7 +64,13 @@ function Todo({ todoProps }: TodoProps) {
 
     return (
         <ListItem
-            sx={{ width: "100%", bgcolor: isCompleted ? "grey.300" : "background.paper", mb: 0.5 }}
+            sx={{
+                width: "100%",
+                bgcolor: isCompleted ? "grey.300" : "background.paper",
+                mb: 0.5,
+                borderRadius: 2,
+                textDecoration: isCompleted ? "line-through" : "none",
+            }}
             secondaryAction={
                 <Box>
                     {!isCompleted && (

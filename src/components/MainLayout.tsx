@@ -13,6 +13,7 @@ function MainLayout() {
                     backgroundColor: "lightgray",
                     height: "100vh",
                     overflowY: "auto",
+                    borderRadius: 2,
                 }}
             >
                 <Outlet />
