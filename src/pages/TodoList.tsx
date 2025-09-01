@@ -8,17 +8,14 @@ import { useTodosRealtime } from "../hooks/useTodosRealtime";
 function TodoList() {
     const { todos } = useSelector((state: RootState) => state.todo);
 
-    // useEffect(() => {
-    //     if (userId) {
-    //         dispatch(getTodos(userId));
-    //     }
-    // }, [dispatch, userId]);
+    // sequenceId'ye göre ASC (küçükten büyüğe) sıralama
+    const sortedTodos = [...todos].sort((a, b) => (a.sequenceId ?? 0) - (b.sequenceId ?? 0));
 
     useTodosRealtime();
 
     return (
         <List>
-            {todos.map((todo: TodoType) => (
+            {sortedTodos.map((todo: TodoType) => (
                 <Todo key={todo.id} todoProps={todo} />
             ))}
         </List>

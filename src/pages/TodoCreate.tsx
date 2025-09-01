@@ -1,14 +1,15 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "../redux/todoSlice";
+import type { RootState } from "../redux/store";
 import type { AppDispatch } from "../redux/store";
+import { addTodo } from "../redux/todoSlice";
+import { setLoading } from "../redux/loadingSlice";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material/Box";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import type { RootState } from "../redux/store";
 import type { TodoType } from "../types/generaltypes";
 
 function TodoCreate() {
@@ -17,26 +18,32 @@ function TodoCreate() {
     const [newTodo, setNewTodo] = useState<string>("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const userId = useSelector((state: RootState) => state.session.user?.uid);
+    const { value } = useSelector((state: RootState) => state.loading);
 
-    const handleCreateTodo = useCallback(() => {
-        if (newTodo.trim() === "") {
-            setOpenSnackbar(true);
-            return;
+    const handleCreateTodo = useCallback(async () => {
+        try {
+            if (newTodo.trim() === "") {
+                setOpenSnackbar(true);
+                return;
+            }
+            if (!userId) return; // userId yoksa işlem yapma
+
+            const payload: Omit<TodoType, "id"> = {
+                text: newTodo,
+                completed: false,
+                userId,
+            };
+            dispatch(setLoading(true));
+            await dispatch(addTodo(payload));
+            setNewTodo("");
+            inputRef.current?.focus();
+        } finally {
+            dispatch(setLoading(false));
         }
-        if (!userId) return; // userId yoksa işlem yapma
-
-        const payload: Omit<TodoType, "id"> = {
-            text: newTodo,
-            completed: false,
-            userId,
-        };
-
-        dispatch(addTodo(payload));
-        setNewTodo("");
-        inputRef.current?.focus();
     }, [dispatch, newTodo, userId]);
 
     const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (value) return;
         if (e.key === "Enter") {
             handleCreateTodo();
         }
@@ -67,6 +74,7 @@ function TodoCreate() {
                     endIcon={<SendIcon />}
                     onClick={handleCreateTodo}
                     sx={{ ml: 2, height: "40px" }}
+                    disabled={value}
                 >
                     Ekle
                 </Button>

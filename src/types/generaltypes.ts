@@ -7,4 +7,5 @@ export type TodoType = {
     text: string;
     completed: boolean;
     userId: string;
+    sequenceId?: number; // Otomatik artan sıra numarası
 };

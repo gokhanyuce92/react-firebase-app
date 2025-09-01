@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { db } from "../Firebase";
-import { collection, doc, addDoc, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, addDoc, getDocs, deleteDoc, updateDoc, query } from "firebase/firestore";
 import type { TodoInitialState, TodoType } from "../types/generaltypes";
+import { getNextTodoSequenceId } from "../utils/todoSequence";
 
 const initialState: TodoInitialState = {
     todos: [],
@@ -10,7 +11,8 @@ const initialState: TodoInitialState = {
 
 // Tüm todo'ları getir
 export const getTodos = createAsyncThunk<TodoType[], string>("getTodos", async (userId) => {
-    const querySnapshot = await getDocs(collection(db, "todos"));
+    const q = query(collection(db, "todos"));
+    const querySnapshot = await getDocs(q);
     // Sadece ilgili kullanıcıya ait todo'lar
     return querySnapshot.docs
         .map((doc) => ({ ...(doc.data() as TodoType), id: doc.id }))
@@ -19,12 +21,15 @@ export const getTodos = createAsyncThunk<TodoType[], string>("getTodos", async (
 
 // Yeni todo ekle
 export const addTodo = createAsyncThunk<TodoType, Omit<TodoType, "id">>("addTodo", async (todo) => {
+    // Sequence id al
+    const sequenceId = await getNextTodoSequenceId();
     const docRef = await addDoc(collection(db, "todos"), {
         text: todo.text,
         completed: todo.completed,
         userId: todo.userId,
+        sequenceId,
     });
-    return { ...todo, id: docRef.id };
+    return { ...todo, id: docRef.id, sequenceId };
 });
 
 // Todo sil

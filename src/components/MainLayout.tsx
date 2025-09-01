@@ -8,7 +8,12 @@ function MainLayout() {
             <Navbar />
             <Container
                 maxWidth="md"
-                sx={{ mt: 1, backgroundColor: "lightgray", height: "calc(100vh - 76px)" }}
+                sx={{
+                    mt: 2,
+                    backgroundColor: "lightgray",
+                    height: "100vh",
+                    overflowY: "auto",
+                }}
             >
                 <Outlet />
             </Container>

@@ -3,6 +3,7 @@ import { FaCheck, FaRegEdit } from "react-icons/fa";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { deleteTodo, updateTodo } from "../redux/todoSlice";
+import { setLoading } from "../redux/loadingSlice";
 import type { AppDispatch } from "../redux/store";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -20,8 +21,14 @@ function Todo({ todoProps }: TodoProps) {
     const [editValue, setEditValue] = useState(text);
     const isCompleted = completed;
 
-    const handleRemove = () => {
-        if (id) dispatch(deleteTodo(id));
+    const handleRemove = async () => {
+        if (!id) return;
+        try {
+            dispatch(setLoading(true));
+            await dispatch(deleteTodo(id));
+        } finally {
+            dispatch(setLoading(false));
+        }
     };
 
     const handleEdit = () => setIsEditing(true);
@@ -29,16 +36,26 @@ function Todo({ todoProps }: TodoProps) {
     const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) =>
         setEditValue(e.target.value);
 
-    const handleEditSave = () => {
+    const handleEditSave = async () => {
         if (editValue.trim() === "") return;
-        dispatch(updateTodo({ ...todoProps, text: editValue }));
-        setIsEditing(false);
+        try {
+            dispatch(setLoading(true));
+            await dispatch(updateTodo({ ...todoProps, text: editValue }));
+            setIsEditing(false);
+        } finally {
+            dispatch(setLoading(false));
+        }
     };
 
-    const handleComplete = () => {
+    const handleComplete = async () => {
         if (isCompleted) return;
 
-        dispatch(updateTodo({ ...todoProps, completed: true }));
+        try {
+            dispatch(setLoading(true));
+            await dispatch(updateTodo({ ...todoProps, completed: true }));
+        } finally {
+            dispatch(setLoading(false));
+        }
     };
 
     const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -47,7 +64,7 @@ function Todo({ todoProps }: TodoProps) {
 
     return (
         <ListItem
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", bgcolor: isCompleted ? "grey.300" : "background.paper", mb: 0.5 }}
             secondaryAction={
                 <Box>
                     {!isCompleted && (
