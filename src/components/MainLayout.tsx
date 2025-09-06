@@ -11,7 +11,7 @@ function MainLayout() {
                 sx={{
                     mt: 2,
                     backgroundColor: "lightgray",
-                    height: "100vh",
+                    height: "90vh",
                     overflowY: "auto",
                     borderRadius: 2,
                 }}
